@@ -16,11 +16,19 @@ public class Fish : MonoBehaviour {
 	void FixedUpdate () {
 		float h = Input.GetAxis ("Horizontal");
 		float v = Input.GetAxis ("Vertical");
+		float animSpeed = 0;
 
-		Vector3 moveit 	     = new Vector3 (h, 0.0f, v);
 
-		rigidbody.velocity = (moveit * speed);
+		if (h != 0 || v != 0) {
+//			Vector3 moveit 	   = new Vector3 (0.0f, 0.0f, v);
+			rigidbody.AddRelativeTorque(0.0f, h, 0.0f);
+			rigidbody.AddForce (transform.forward * speed * v);
+			animSpeed  = Mathf.Abs(rigidbody.velocity.z);
+			animSpeed /= 40;
+		}
 
-		anim.SetFloat ("speed", h*h+v*v);
+		print (animSpeed);
+
+		anim.SetFloat ("speed", animSpeed);
 	}
 }
