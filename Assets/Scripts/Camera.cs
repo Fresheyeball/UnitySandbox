@@ -10,8 +10,13 @@ public class Camera : MonoBehaviour {
 	
 	void Update () {
 		transform.rotation = Quaternion.Slerp (transform.rotation, target.rotation, dampening);
-		Vector3 pos = transform.rotation * Vector3.back * distance + target.position + Vector3.up;
+		float csquare = distance * distance;
+		float asquare = height * height;
+		float bsquare = Mathf.Sqrt (csquare - asquare);
+
+		Vector3 pos = transform.rotation * Vector3.back * bsquare + target.position + Vector3.up;
 		pos.y += height;
 		transform.position = pos;	
+		transform.LookAt (target.position);
 	}
 }
